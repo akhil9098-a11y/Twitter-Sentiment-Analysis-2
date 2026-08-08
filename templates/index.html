@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Sentiment Analysis | Premium AI Insights</title>
+    <meta name="description" content="Discover the emotional undertone of any text instantly with our advanced AI sentiment analyzer.">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="background-elements">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <main class="container">
+        <header>
+            <div class="header-badge">AI Powered Sentiment Analysis</div>
+            <h1 class="gradient-text">Sentiment Analyzer</h1>
+            <p class="subtitle">Harness the power of machine learning to decode emotions in real-time. Simply type or paste your text below.</p>
+        </header>
+
+        <section class="glass-card analyzer-card">
+            <div class="input-header">
+                <i data-lucide="pen-tool"></i>
+                <span>Your Input</span>
+            </div>
+            <textarea id="text-input" placeholder="What's happening? Type a tweet or sentence here..."></textarea>
+            
+            <div class="controls">
+                <div class="char-counter">
+                    <span id="char-count">0</span> / 280
+                </div>
+                <button id="analyze-btn">
+                    <span class="btn-text">Analyze Now</span>
+                    <i data-lucide="sparkles" class="btn-icon"></i>
+                    <div class="spinner hidden" id="loading-spinner"></div>
+                </button>
+            </div>
+            
+            <div id="result-container" class="result-container hidden">
+                <div class="result-box" id="result-box">
+                    <div class="emoji-container" id="result-emoji">🤔</div>
+                    <div class="text-container">
+                        <span class="result-label">Analysis Result</span>
+                        <h2 id="result-text">Unknown</h2>
+                    </div>
+                    <div class="sentiment-indicator" id="sentiment-indicator"></div>
+                </div>
+                <div id="dynamic-graph-container" class="hidden">
+                    <h3 class="chart-title">Confidence Breakdown</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="confidence-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="error-container" class="error-container hidden">
+                <i data-lucide="alert-circle"></i>
+                <p id="error-text"></p>
+            </div>
+        </section>
+        
+        <section class="insights-section">
+            <header class="section-header">
+                <i data-lucide="bar-chart-3"></i>
+                <h2 class="section-title">Global Insights</h2>
+                <p class="section-subtitle">Visualizing our model's performance and core dataset characteristics.</p>
+            </header>
+            
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <div class="card-title">
+                        <i data-lucide="pie-chart"></i>
+                        <h3>Class Distribution</h3>
+                    </div>
+                    <img src="/static/insights/class_distribution.png" alt="Class Distribution Plot" onerror="this.src='https://via.placeholder.com/800x500/0f172a/ffffff?text=Generating+Plot...'">
+                </div>
+                <div class="insight-card">
+                    <div class="card-title">
+                        <i data-lucide="grid"></i>
+                        <h3>Model Confusion Matrix</h3>
+                    </div>
+                    <img src="/static/insights/confusion_matrix.png" alt="Confusion Matrix" onerror="this.src='https://via.placeholder.com/700x600/0f172a/ffffff?text=Generating+Plot...'">
+                </div>
+                <div class="insight-card wordcloud-card">
+                    <div class="card-title">
+                        <i data-lucide="cloud"></i>
+                        <h3>Frequent Words: Positive Sentiments</h3>
+                    </div>
+                    <img src="/static/insights/wordcloud_positive.png" alt="Positive Word Cloud" onerror="this.src='https://via.placeholder.com/1000x500/0f172a/ffffff?text=Generating+Plot...'">
+                </div>
+                <div class="insight-card wordcloud-card">
+                    <div class="card-title">
+                        <i data-lucide="cloud"></i>
+                        <h3>Frequent Words: Negative Sentiments</h3>
+                    </div>
+                    <img src="/static/insights/wordcloud_negative.png" alt="Negative Word Cloud" onerror="this.src='https://via.placeholder.com/1000x500/0f172a/ffffff?text=Generating+Plot...'">
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2026 Sentiment Analyzer Pro. Built with Scikit-Learn & Flask.</p>
+            </div>
+        </footer>
+    </main>
+
+    <script src="/static/script.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>
