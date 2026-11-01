@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Twitter Sentiment Analysis | Premium AI Insights</title>
-    <meta name="description" content="Discover the emotional undertone of any text instantly with our advanced AI sentiment analyzer.">
+    <meta name="description"
+        content="Discover the emotional undertone of any text instantly with our advanced AI sentiment analyzer.">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="/static/style.css">
 </head>
+
 <body>
     <div class="background-elements">
         <div class="blob blob-1"></div>
@@ -21,7 +24,8 @@
         <header>
             <div class="header-badge">AI Powered Sentiment Analysis</div>
             <h1 class="gradient-text">Sentiment Analyzer</h1>
-            <p class="subtitle">Harness the power of machine learning to decode emotions in real-time. Simply type or paste your text below.</p>
+            <p class="subtitle">Harness the power of machine learning to decode emotions in real-time. Simply type or
+                paste your text below.</p>
         </header>
 
         <section class="glass-card analyzer-card">
@@ -30,7 +34,7 @@
                 <span>Your Input</span>
             </div>
             <textarea id="text-input" placeholder="What's happening? Type a tweet or sentence here..."></textarea>
-            
+
             <div class="controls">
                 <div class="char-counter">
                     <span id="char-count">0</span> / 280
@@ -41,7 +45,7 @@
                     <div class="spinner hidden" id="loading-spinner"></div>
                 </button>
             </div>
-            
+
             <div id="result-container" class="result-container hidden">
                 <div class="result-box" id="result-box">
                     <div class="emoji-container" id="result-emoji">🤔</div>
@@ -57,51 +61,215 @@
                         <canvas id="confidence-chart"></canvas>
                     </div>
                 </div>
+                <div id="explanation-container" class="explanation-container hidden">
+                    <div class="explanation-header">
+                        <i data-lucide="brain"></i>
+                        <h3>Why this prediction?</h3>
+                    </div>
+
+                    <p id="explanation-text">
+                        The model's reasoning will appear here.
+                    </p>
+                </div>
+                <div id="token-container" class="token-container hidden">
+                    <div class="explanation-header">
+                        <i data-lucide="scan-text"></i>
+                        <h3>Important Words</h3>
+                    </div>
+
+                    <p class="token-subtitle">
+                        Words that contributed most strongly to the model's prediction.
+                    </p>
+
+                    <div id="token-list" class="token-list"></div>
+                </div>
             </div>
-            
+
             <div id="error-container" class="error-container hidden">
                 <i data-lucide="alert-circle"></i>
                 <p id="error-text"></p>
             </div>
         </section>
-        
+
         <section class="insights-section">
             <header class="section-header">
                 <i data-lucide="bar-chart-3"></i>
                 <h2 class="section-title">Global Insights</h2>
                 <p class="section-subtitle">Visualizing our model's performance and core dataset characteristics.</p>
             </header>
-            
+
             <div class="insights-grid">
                 <div class="insight-card">
                     <div class="card-title">
                         <i data-lucide="pie-chart"></i>
                         <h3>Class Distribution</h3>
                     </div>
-                    <img src="/static/insights/class_distribution.png" alt="Class Distribution Plot" onerror="this.src='https://via.placeholder.com/800x500/0f172a/ffffff?text=Generating+Plot...'">
+                    <img src="/static/insights/class_distribution.png" alt="Class Distribution Plot"
+                        onerror="this.src='https://via.placeholder.com/800x500/0f172a/ffffff?text=Generating+Plot...'">
                 </div>
                 <div class="insight-card">
                     <div class="card-title">
                         <i data-lucide="grid"></i>
                         <h3>Model Confusion Matrix</h3>
                     </div>
-                    <img src="/static/insights/confusion_matrix.png" alt="Confusion Matrix" onerror="this.src='https://via.placeholder.com/700x600/0f172a/ffffff?text=Generating+Plot...'">
+                    <img src="/static/insights/confusion_matrix.png" alt="Confusion Matrix"
+                        onerror="this.src='https://via.placeholder.com/700x600/0f172a/ffffff?text=Generating+Plot...'">
                 </div>
                 <div class="insight-card wordcloud-card">
                     <div class="card-title">
                         <i data-lucide="cloud"></i>
                         <h3>Frequent Words: Positive Sentiments</h3>
                     </div>
-                    <img src="/static/insights/wordcloud_positive.png" alt="Positive Word Cloud" onerror="this.src='https://via.placeholder.com/1000x500/0f172a/ffffff?text=Generating+Plot...'">
+                    <img src="/static/insights/wordcloud_positive.png" alt="Positive Word Cloud"
+                        onerror="this.src='https://via.placeholder.com/1000x500/0f172a/ffffff?text=Generating+Plot...'">
                 </div>
                 <div class="insight-card wordcloud-card">
                     <div class="card-title">
                         <i data-lucide="cloud"></i>
                         <h3>Frequent Words: Negative Sentiments</h3>
                     </div>
-                    <img src="/static/insights/wordcloud_negative.png" alt="Negative Word Cloud" onerror="this.src='https://via.placeholder.com/1000x500/0f172a/ffffff?text=Generating+Plot...'">
+                    <img src="/static/insights/wordcloud_negative.png" alt="Negative Word Cloud"
+                        onerror="this.src='https://via.placeholder.com/1000x500/0f172a/ffffff?text=Generating+Plot...'">
                 </div>
             </div>
+        </section>
+
+        <section class="glass-card batch-card">
+
+            <div class="input-header">
+                <i data-lucide="layers"></i>
+                <span>Batch Tweet Analysis</span>
+            </div>
+
+            <p class="batch-description">
+                Analyze multiple tweets at once and view the overall sentiment distribution.
+                Enter one tweet per line, with a maximum of 50 tweets.
+            </p>
+
+            <textarea id="batch-input" placeholder="I love this product!
+This service is disappointing.
+The weather is nice today.
+Amazing experience!"></textarea>
+
+            <div class="batch-controls">
+                <span id="batch-count">0 tweets</span>
+
+                <button id="batch-analyze-btn">
+                    <span class="btn-text">Analyze Batch</span>
+                    <i data-lucide="bar-chart-3"></i>
+                    <div class="spinner hidden" id="batch-loading-spinner"></div>
+                </button>
+            </div>
+
+            <div id="batch-error-container" class="error-container hidden">
+                <i data-lucide="alert-circle"></i>
+                <p id="batch-error-text"></p>
+            </div>
+
+            <div id="batch-result-container" class="batch-result-container hidden">
+
+
+                <div class="batch-summary">
+                    <h3>Batch Summary</h3>
+
+                    <div class="batch-stats-grid">
+
+                        <div class="batch-stat-card">
+                            <span>Total Analyzed</span>
+                            <strong id="batch-total">0</strong>
+                        </div>
+
+                        <div class="batch-stat-card">
+                            <span>Average Confidence</span>
+                            <strong id="batch-average-confidence">0%</strong>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="strongest-examples">
+
+                    <div class="strongest-card positive-example">
+                        <h3>Most Positive Tweet</h3>
+                        <p id="most-positive-text">No positive tweets found.</p>
+                        <span id="most-positive-confidence"></span>
+                    </div>
+
+                    <div class="strongest-card negative-example">
+                        <h3>Most Negative Tweet</h3>
+                        <p id="most-negative-text">No negative tweets found.</p>
+                        <span id="most-negative-confidence"></span>
+                    </div>
+                </div>
+
+
+                <div class="batch-chart-container">
+                    <h3>Sentiment Distribution</h3>
+
+                    <div class="batch-chart-wrapper">
+                        <canvas id="batch-sentiment-chart"></canvas>
+                    </div>
+                </div>
+
+
+                <div class="batch-results-list">
+
+                    <div class="batch-results-header">
+                        <h3>Individual Results</h3>
+
+                        <button id="export-csv-btn" class="export-csv-btn">
+                            <i data-lucide="download"></i>
+                            Export CSV
+                        </button>
+                    </div>
+
+                    <div id="batch-results"></div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+        <!-- Analysis History Section -->
+        <section class="glass-card history-card">
+
+            <div class="history-header">
+                <div>
+                    <div class="input-header">
+                        <i data-lucide="history"></i>
+                        <span>Analysis History</span>
+                    </div>
+
+                    <p class="history-description">
+                        View and manage your previously analyzed tweets.
+                    </p>
+                </div>
+
+                <button id="refresh-history-btn" class="history-refresh-btn">
+                    <i data-lucide="refresh-cw"></i>
+                    Refresh
+                </button>
+            </div>
+
+            <div id="history-loading" class="hidden">
+                Loading analysis history...
+            </div>
+
+            <div id="history-error" class="error-container hidden">
+                <i data-lucide="alert-circle"></i>
+                <p id="history-error-text"></p>
+            </div>
+
+            <div id="history-empty" class="history-empty hidden">
+                <i data-lucide="inbox"></i>
+                <h3>No Analysis History</h3>
+                <p>Your analyzed tweets will appear here.</p>
+            </div>
+
+            <div id="history-list" class="history-list"></div>
+
         </section>
 
         <footer>
@@ -117,4 +285,5 @@
         lucide.createIcons();
     </script>
 </body>
+
 </html>

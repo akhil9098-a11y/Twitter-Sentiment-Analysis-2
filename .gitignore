@@ -1,1 +1,6 @@
 data/tweets.csv 
+data/api_tweets.csv
+model.joblib
+__pycache__/
+*.pyc
+.env

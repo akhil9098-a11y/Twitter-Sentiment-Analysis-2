@@ -19,14 +19,32 @@ def train_and_save_model(data_path=None):
     """
     dfs = []
     
-    # 1. Load Base Dataset
+        # 1. Load Base Dataset
     base_data = "data/tweets.csv"
+
     if os.path.exists(base_data):
         print(f"Loading base data from {base_data}...")
-        # Sentiment140 format: target, id, date, flag, user, text
-        df_base = pd.read_csv(base_data, encoding='latin-1', header=None, names=['sentiment', 'id', 'date', 'flag', 'user', 'text'])
+
+        # Sentiment140 has NO header row.
+        df_base = pd.read_csv(
+            base_data,
+            encoding='latin-1',
+            header=None,
+            names=[
+                'sentiment',
+                'id',
+                'date',
+                'flag',
+                'user',
+                'text'
+            ]
+        )
+
+        print("Detected Sentiment140 format.")
+        print("Dataset shape:", df_base.shape)
+
         dfs.append(df_base[['text', 'sentiment']])
-    
+        
     # 2. Load API Data
     if os.path.exists(API_DATA_PATH):
         print(f"Loading API data from {API_DATA_PATH}...")
@@ -69,12 +87,16 @@ def train_and_save_model(data_path=None):
             min_df=5,
             max_df=0.9
         )),
-        ('clf', LogisticRegression(max_iter=1000, C=1.0))
+        ('clf', LogisticRegression(
+    max_iter=1000,
+    C=1.0,
+    random_state=42
+))
     ])
     
     # If we have enough data, do train/test split.
     if len(df) > 50:
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=42)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42,stratify=y)
         pipeline.fit(X_train, y_train)
         
         print("Evaluating model...")
@@ -129,13 +151,12 @@ def collect_api_data_and_train(limit=100):
     
     return True
 
-def load_model():
-    """
-    Loads the saved model from disk.
-    """
-    if not os.path.exists(MODEL_PATH):
-        raise FileNotFoundError(f"Model file {MODEL_PATH} not found. Please train the model first.")
-    return joblib.load(MODEL_PATH)
+def load_model(model_path=MODEL_PATH):
+    if not os.path.exists(model_path):
+        raise FileNotFoundError(
+            f"Model file {model_path} not found. Please train the model first."
+        )
+    return joblib.load(model_path)
 
 def predict_sentiment(text, model):
     """
