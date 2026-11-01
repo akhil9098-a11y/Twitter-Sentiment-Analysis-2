@@ -1,13 +1,6 @@
-
 Flask
 Flask-SQLAlchemy
 gunicorn
-pandas
-numpy
 scikit-learn==1.8.0
 joblib
 python-dotenv
-transformers
-torch
-captum
-matplotlib
