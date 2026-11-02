@@ -47,8 +47,8 @@ class AnalysisHistory(db.Model):
     )
 
     # Initialize database tables when the application starts.
-    with app.app_context():
-        db.create_all()
+with app.app_context():
+    db.create_all()
 
 
 @app.route("/")
